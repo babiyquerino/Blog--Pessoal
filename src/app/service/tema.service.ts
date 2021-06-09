@@ -12,17 +12,28 @@ export class TemaService {
   constructor(
     private http: HttpClient) { }
 
-    token={
-      Headers: new HttpHeaders().set('Authorization', environment.token)
-    }
+    token = { headers: new HttpHeaders().set('Authorization', environment.token)}
 
     getAllTema():Observable<Tema[]> {
-      return this.http.get<Tema[]>('http://127.0.0:3306/tema')
+      return this.http.get<Tema[]>('http://127.0.0:3306/tema', this.token)
+    }
+
+    getByIdTema(id: number): Observable<Tema>{
+      return this.http.get<Tema>(`http://127.0.0:3306/tema/${id}`,this.token)
     }
 
     postTema(tema: Tema): Observable<Tema>{
-      return this.http.post<Tema>('http://127.0.0:3306/tema', this.token)
-
+      return this.http.post<Tema>('http://127.0.0:3306/tema', tema, this.token)
     }
+
+    putTema(tema: Tema): Observable<Tema>{
+      return this.http.put<Tema>('http://127.0.0:3306/tema', tema, this.token)
+    }
+
+    deleteTema(id: number){
+      return this.http.delete(`http://127.0.0:3306/tema/${id}`,this.token)
+    } 
+
+
 
 }
